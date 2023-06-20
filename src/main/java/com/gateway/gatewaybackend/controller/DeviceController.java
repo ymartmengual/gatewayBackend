@@ -4,6 +4,7 @@ package com.gateway.gatewaybackend.controller;
 import com.gateway.gatewaybackend.constante.Constante;
 import com.gateway.gatewaybackend.dto.ResultDataResDto;
 import com.gateway.gatewaybackend.entity.Device;
+import com.gateway.gatewaybackend.entity.Gateway;
 import com.gateway.gatewaybackend.exceptions.GenericErrorException;
 import com.gateway.gatewaybackend.services.IDeviceService;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +26,11 @@ public class DeviceController {
     @Autowired
     private IDeviceService deviceService;
 
+    /**
+     * @implNote create Device
+     * @param device
+     * @return
+     */
     @PostMapping("/create")
     public ResponseEntity<Object> save(@Valid @RequestBody Device device){
         try{
@@ -42,6 +49,20 @@ public class DeviceController {
         }catch (Exception e){
             Logger.getLogger(DeviceController.class.getName()).log(Level.SEVERE, e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @implNote get list gateways
+     * @return
+     */
+    @GetMapping("/")
+    public ResponseEntity<List<Device>> getAllDevices(){
+        try{
+            return new ResponseEntity<>(deviceService.findAll(), HttpStatus.OK);
+        }catch (Exception e){
+            Logger.getLogger(DeviceController.class.getName()).log(Level.SEVERE, e.getMessage());
+            return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
