@@ -3,7 +3,6 @@ package com.gateway.gatewaybackend.services;
 import com.gateway.gatewaybackend.entity.Device;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IDeviceService {
 
@@ -11,7 +10,7 @@ public interface IDeviceService {
 
     List<Device> findAll();
 
-    Optional<Device> findById(Long idDevice);
+    Device findById(Long idDevice);
 
-    boolean deleteDevice(Long idDevice);
+    boolean existDeviceByUid(String uid);
 }

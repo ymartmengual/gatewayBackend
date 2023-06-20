@@ -2,23 +2,22 @@ package com.gateway.gatewaybackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
-@ToString
+@Data
 public class Gateway implements Serializable {
 
     @Id
@@ -30,7 +29,6 @@ public class Gateway implements Serializable {
     @NotNull(message = "serialNumber field is mandatory")
     @NotBlank(message = "serialNumber field must not be empty")
     @Size(max = 100, message = "value not valid, 100 characters max")
-    @JsonProperty("serialNumber")
     @Column(name = "serial_number")
     private String serialNumber;
 
@@ -44,6 +42,12 @@ public class Gateway implements Serializable {
     @Pattern(regexp = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", message = "value not valid, allowed only ipv4 address")
     private String address;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idGateway")
+    @Valid
+    @NotNull(message = "devices field is mandatory")
+    @JsonProperty("devices")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({ CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "gateway_device", joinColumns = @JoinColumn(name = "id_gateway"),
+            inverseJoinColumns = @JoinColumn(name = "id_device"))
     private List<Device> deviceList;
 }

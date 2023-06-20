@@ -3,7 +3,6 @@ package com.gateway.gatewaybackend.services;
 import com.gateway.gatewaybackend.entity.Gateway;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IGatewayService {
 
@@ -11,5 +10,7 @@ public interface IGatewayService {
 
     List<Gateway> findAll();
 
-    Optional<Gateway> findById(Long idGateway);
+    Gateway findById(Long idGateway);
+
+    boolean existGatewayBySerialNumber(String serialNumber);
 }

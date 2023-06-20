@@ -26,7 +26,16 @@ public class GatewayServiceImpl implements IGatewayService {
     }
 
     @Override
-    public Optional<Gateway> findById(Long idGateway) {
-        return gatewayRepository.findById(idGateway);
+    public Gateway findById(Long idGateway) {
+        Optional<Gateway> gatewayOptional = gatewayRepository.findById(idGateway);
+        if(gatewayOptional.isPresent()){
+            return  gatewayOptional.get();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean existGatewayBySerialNumber(String serialNumber) {
+        return gatewayRepository.findAll().stream().anyMatch(gateway -> gateway.getSerialNumber().equalsIgnoreCase(serialNumber));
     }
 }

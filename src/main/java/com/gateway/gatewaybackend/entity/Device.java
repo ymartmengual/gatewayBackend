@@ -5,19 +5,15 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@ToString
 public class Device implements Serializable {
 
     @Id
@@ -35,14 +31,9 @@ public class Device implements Serializable {
     @Size(max = 100, message = "value not valid, 100 characters max")
     private String vendor;
 
-    @NotNull(message = "created field is mandatory")
-    private LocalDate created;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
+    @NotNull(message = "status field is mandatory")
     private boolean status;
-
-    @JoinColumn(name = "id_gateway", referencedColumnName = "id_gateway")
-    @ManyToOne(optional = false)
-    @Column(name = "id_gateway")
-    private Gateway idGateway;
-
 }
