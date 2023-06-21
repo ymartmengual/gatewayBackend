@@ -161,15 +161,19 @@ public class GatewayController {
         }
     }
 
-    @PutMapping("/{idGateway}/add-device")
-    public ResponseEntity<Object> actualizarCliente(@PathVariable Long idGateway, @Valid @RequestBody Device device){
+    @PutMapping("/{idGateway}/add-device/{idDevice}")
+    public ResponseEntity<Object> addDeviceToGateway(@PathVariable Long idGateway, @PathVariable Long idDevice){
         try{
             Gateway gateway = gatewayService.findById(idGateway);
-            Device newDevice = deviceService.findById(device.getIdDevice());
+            Device newDevice = deviceService.findById(idDevice);
             if(gateway!= null && newDevice != null){
                 List<Device> deviceList = gateway.getDeviceList();
                 if(!deviceList.stream().anyMatch(devic-> devic.equals(newDevice))){
                     deviceList.add(newDevice);
+                    if(deviceList.size() > 10){
+                        throw new GenericErrorException("only 10 devices are allowed by Gateway",
+                                Constante.CODE_RESPONSE_ARGUMENT_NOT_VALID, Constante.NAME_CODE_RESPONSE_ARGUMENT_NOT_VALID);
+                    }
                     gateway.setDeviceList(deviceList);
                     return new ResponseEntity<>(gatewayService.save(gateway), HttpStatus.OK);
                 }else{
