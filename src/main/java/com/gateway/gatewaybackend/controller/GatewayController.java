@@ -95,7 +95,7 @@ public class GatewayController {
     }
 
     /**
-     * @implNote Find by Id Gateway
+     * @implNote Find Gateway by Id
      * @param idGateway
      * @return gateway if it is found else it returns error
      */
@@ -121,7 +121,7 @@ public class GatewayController {
     }
 
     /**
-     * @implNote delete Device from Gateway by Id Gateway an Id Device
+     * @implNote Delete a device from the Gateway by IdGateway and IdDevice
      * @param idGateway
      * @param idDevice
      * @return
@@ -161,6 +161,12 @@ public class GatewayController {
         }
     }
 
+    /**
+     * @implNote Add Device to Gateway by IdGateway and IdDevice
+     * @param idGateway
+     * @param idDevice
+     * @return
+     */
     @PutMapping("/{idGateway}/add-device/{idDevice}")
     public ResponseEntity<Object> addDeviceToGateway(@PathVariable Long idGateway, @PathVariable Long idDevice){
         try{

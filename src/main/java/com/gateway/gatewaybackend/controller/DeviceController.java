@@ -4,7 +4,6 @@ package com.gateway.gatewaybackend.controller;
 import com.gateway.gatewaybackend.constante.Constante;
 import com.gateway.gatewaybackend.dto.ResultDataResDto;
 import com.gateway.gatewaybackend.entity.Device;
-import com.gateway.gatewaybackend.entity.Gateway;
 import com.gateway.gatewaybackend.exceptions.GenericErrorException;
 import com.gateway.gatewaybackend.services.IDeviceService;
 import jakarta.validation.Valid;
@@ -53,7 +52,7 @@ public class DeviceController {
     }
 
     /**
-     * @implNote get list gateways
+     * @implNote get list Devices
      * @return
      */
     @GetMapping("/")
